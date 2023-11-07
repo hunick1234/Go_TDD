@@ -27,11 +27,11 @@ func (s *snake) AddHead(x, y int) {
 }
 
 func (s *GameObject) MoveUp() {
-	s.Y--
+	s.Y++
 }
 
 func (s *GameObject) MoveDown() {
-	s.Y++
+	s.Y--
 }
 
 func (s *GameObject) MoveLeft() {
