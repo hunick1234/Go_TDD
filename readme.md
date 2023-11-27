@@ -197,11 +197,12 @@
 
 - 接口內嵌：如果多個行為經常一起出現，可以考慮將接口內嵌在一起，這樣可以通過實現一個較大的接口來簡化某些情況。
 
-> **使用策略模式（Strategy Pattern）來管理行為**
+> **使用策略模式（Strategy Pattern）來管理行為(演算法)**
 
 ---
 
-2. 觀察者模式
+
+# 2. 觀察者模式
 
 - 設計一個氣象站
 
@@ -340,6 +341,7 @@
 
 ##### So Why?!
 
+
 - 優點
   - 解耦合：主題和觀察者之間解耦，使得主題和觀察者可以獨立地改變和重用。
   - 可維護性：主題或觀察者可以獨立地擴展，而不會影響到另一方。
@@ -350,8 +352,106 @@
   
 
 
-## 3.
+## 3. 裝飾者模式
 
+```go
+package main
+
+import "fmt"
+
+type Beverager interface {
+	Cost() float32
+	GetDescription() string
+}
+
+type HouseBlend struct {
+	description string
+}
+
+func (hb *HouseBlend) Cost() float32 {
+	return 0.89
+}
+
+func (hb *HouseBlend) GetDescription() string {
+	return hb.description
+}
+
+type DarkRoast struct {
+	description string
+}
+
+func (dr *DarkRoast) Cost() float32 {
+	return 0.99
+}
+
+func (dr *DarkRoast) GetDescription() string {
+	return dr.description
+}
+
+type Espresso struct {
+	description string
+}
+
+func (e *Espresso) Cost() float32 {
+	return 1.99
+}
+
+func (e *Espresso) GetDescription() string {
+	return e.description
+}
+
+type Mocha struct {
+	beverage Beverager
+}
+
+func (m *Mocha) Cost() float32 {
+	return 0.2 + m.beverage.Cost()
+}
+
+func (m *Mocha) GetDescription() string {
+	return m.beverage.GetDescription() + ", Mocha"
+}
+
+func NewMocha(beverage Beverager) *Mocha {
+	return &Mocha{
+		beverage: beverage,
+	}
+}
+
+type Milk struct {
+	beverage Beverager
+}
+
+func (m *Milk) Cost() float32 {
+	return 0.3 + m.beverage.Cost()
+}
+
+func (m *Milk) GetDescription() string {
+	return m.beverage.GetDescription() + ", Milk"
+}
+
+func NewMilk(beverage Beverager) *Milk {
+	return &Milk{
+		beverage: beverage,
+	}
+}
+
+func main() {
+	beverage := &Espresso{description: "Espresso"}
+	fmt.Println(beverage.GetDescription(), beverage.Cost())
+
+	var beverage2 Beverager
+	beverage2 = &DarkRoast{description: "DarkRoast"}
+	beverage2 = NewMocha(beverage2)
+	beverage2 = NewMocha(beverage2)
+	beverage2 = NewMilk(beverage2)
+	fmt.Println(beverage2.GetDescription(), beverage2.Cost())
+}
+
+```
+
+
+```
 ## How to TDD
 
 ### TDD Cycle
