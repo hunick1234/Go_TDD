@@ -337,6 +337,23 @@
       ccd.humidity = humidity
       ccd.Display()
   }
+
+  // Display 顯示資料
+  func (ccd *CurrentConditionsDisplay) Display() {
+      fmt.Println("temp:", ccd.temp)
+      fmt.Println("humidity:", ccd.humidity)
+  }
+
+  func main() {
+      var weatherData Subject
+      weatherData := &WeatherData{}
+      currentConditionsDisplay := NewCurrentConditionsDisplay(weatherData)
+      weatherData.SetMeasurements(80, 65, 30.4)
+      weatherData.SetMeasurements(82, 70, 29.2)
+      weatherData.SetMeasurements(78, 90, 29.2)
+  }
+
+  ```
   ```
 
 ##### So Why?!
@@ -451,7 +468,7 @@ func main() {
 ```
 
 
-```
+
 ## How to TDD
 
 ### TDD Cycle
